@@ -17,33 +17,47 @@ https://scrapeops.io/python-scrapy-playbook/scrapy-beginners-guide-storing-data/
 https://scrapeops.io/python-scrapy-playbook/scrapy-beginners-guide-user-agents-proxies/
 
 
+# Selenium 参考
 
-# 分支
+目标网站
+https://www.accupass.com/?area=north
 
-## Selenium 
+参考教程
 
-介绍如何使用selenium爬取结构性网页 自顶向下方法**extract_from_parent**(self,response)
-
-
-
+https://www.learncodewithmike.com/2021/11/scrapy-integrate-with-selenium.html
 
 
-# 基础操作
+
+settings.py配置
+
+```
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy_selenium.SeleniumMiddleware': 800
+}
+SELENIUM_DRIVER_NAME = 'chrome'
+SELENIUM_DRIVER_EXECUTABLE_PATH = 'chromedriver.exe' #驱动路径
+SELENIUM_DRIVER_ARGUMENTS = ['-headless']
+
+#WARNING: Disabled SeleniumMiddleware: SELENIUM_DRIVER_NAME and SELENIUM_DRIVER_EXECUTABLE_PATH must be set
+```
+
+
 
 ## 初始化命令
 
 ```
 #初始化项目
-scrapy startproject chocolatescraper
+scrapy startproject accupass
 #syntax is --> scrapy genspider <name_of_spider> <website>
-scrapy genspider chocolatespider chocolate.co.uk
+cd accupass
+scrapy genspider accupass_spider accupass.com
 ```
 
 默认目录结构
 
 ```
 ├── scrapy.cfg
-└── chocolatescraper
+└── accupass
     ├── __init__.py
     ├── items.py
     ├── middlewares.py
@@ -60,15 +74,15 @@ scrapy genspider chocolatespider chocolate.co.uk
 #shell
 scrapy shell
 
-fetch('https://www.chocolate.co.uk/collections/all')
-response.css('product-item')
+fetch('https://www.accupass.com/?area=north')
+response.css('style-f13be39c-event-name')
 ```
 
 ## 启动爬虫
 
 ```
 #启动爬虫
-scrapy crawl chocolatespider
+scrapy crawl accupass_spider
 ```
 
 
